@@ -15,26 +15,39 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Business;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.IdentityModel.Protocols;
 
 namespace WebAPI
 {
-    public class Startup
+    public partial class Startup : BusinessStartup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostEnvironment hostEnvironment)
+            : base(configuration, hostEnvironment)
         {
-            Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public override void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
-            services.AddCors();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "AllowOrigin",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>
@@ -50,26 +63,40 @@ namespace WebAPI
                        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                    };
                });
-            services.AddDependencyResolvers(new ICoreModule[] {
-                 new CoreModule()
-            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Firehorse WebAPI", Version = "v1.0.0" });
             });
+            
+            base.ConfigureServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            // VERY IMPORTANT. Since we removed the build from AddDependencyResolvers, let's set the Service provider manually.
+            // By the way, we can construct with DI by taking type to avoid calling static methods in aspects.
+            ServiceTool.ServiceProvider = app.ApplicationServices;
+
+
+            var configurationManager = app.ApplicationServices.GetService<ConfigurationManager>();
+            switch (configurationManager.Mode)
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Firehorse v1.0.0"));
+                case ApplicationMode.Development:
+                    break;
+
+                case ApplicationMode.Profiling:
+                case ApplicationMode.Staging:
+
+                    break;
+                case ApplicationMode.Production:
+                    break;
             }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Firehorse v1.0.0"));
             app.ConfigureCustomExceptionMiddleware();
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+            app.UseCors("AllowOrigin");
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -77,7 +104,15 @@ namespace WebAPI
             app.UseAuthentication();
 
             app.UseAuthorization();
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("tr-TR"),
+            });
+            var cultureInfo = new CultureInfo("tr-TR");
+            cultureInfo.DateTimeFormat.ShortTimePattern = "HH:mm";
 
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
