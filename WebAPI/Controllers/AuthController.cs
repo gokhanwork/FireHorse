@@ -1,10 +1,10 @@
-﻿using Business.Abstract;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Abstract;
 using Entities.DTOs;
 
 namespace WebAPI.Controllers
@@ -35,8 +35,9 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
 
-            return BadRequest(userToLogin.Message);
+            return BadRequest(result.Message);
         }
+
         [HttpPost("register")]
         public ActionResult Register(UserForRegisterDto userForRegisterDto)
         {

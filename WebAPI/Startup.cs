@@ -67,7 +67,7 @@ namespace WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Firehorse WebAPI", Version = "v1.0.0" });
             });
-            
+
             base.ConfigureServices(services);
         }
 
