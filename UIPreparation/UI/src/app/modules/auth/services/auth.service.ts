@@ -1,3 +1,4 @@
+import { LoginModel } from './../models/login.model';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { map, catchError, switchMap, finalize } from 'rxjs/operators';
@@ -6,6 +7,7 @@ import { AuthModel } from '../models/auth.model';
 import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { SingleResponseModel } from '../../singleResponse.model';
 
 export type UserType = UserModel | undefined;
 
@@ -44,16 +46,16 @@ export class AuthService implements OnDestroy {
   }
 
   // public methods
-  login(email: string, password: string): Observable<UserType> {
+  login(loginModel:LoginModel) {
     this.isLoadingSubject.next(true);
-    return this.authHttpService.login(email, password).pipe(
-      map((auth: AuthModel) => {
-        const result = this.setAuthFromLocalStorage(auth);
+    return this.authHttpService.login(loginModel).pipe(
+      map((auth: SingleResponseModel<AuthModel>) => {
+        const result = this.setAuthFromLocalStorage(auth.data);
         return result;
       }),
       switchMap(() => this.getUserByToken()),
       catchError((err) => {
-        console.error('err', err);
+        console.log('err', err);
         return of(undefined);
       }),
       finalize(() => this.isLoadingSubject.next(false))
@@ -69,12 +71,12 @@ export class AuthService implements OnDestroy {
 
   getUserByToken(): Observable<UserType> {
     const auth = this.getAuthFromLocalStorage();
-    if (!auth || !auth.authToken) {
+    if (!auth || !auth.token) {
       return of(undefined);
     }
 
     this.isLoadingSubject.next(true);
-    return this.authHttpService.getUserByToken(auth.authToken).pipe(
+    return this.authHttpService.getUserByToken(auth.token).pipe(
       map((user: UserType) => {
         if (user) {
           this.currentUserSubject.next(user);
@@ -94,7 +96,7 @@ export class AuthService implements OnDestroy {
       map(() => {
         this.isLoadingSubject.next(false);
       }),
-      switchMap(() => this.login(user.email, user.password)),
+      //switchMap(() => this.login([{user.email, user.password}])),
       catchError((err) => {
         console.error('err', err);
         return of(undefined);
@@ -113,16 +115,23 @@ export class AuthService implements OnDestroy {
   // private methods
   private setAuthFromLocalStorage(auth: AuthModel): boolean {
     // store auth authToken/refreshToken/epiresIn in local storage to keep user logged in between page refreshes
-    if (auth && auth.authToken) {
+    console.log("Auth ",auth);
+
+    if (auth && auth.token) {
       localStorage.setItem(this.authLocalStorageToken, JSON.stringify(auth));
+      console.log("Token Kaydedildi");
       return true;
     }
+    console.log("Tokey kaydedilmedi");
+
     return false;
   }
 
   private getAuthFromLocalStorage(): AuthModel | undefined {
     try {
       const lsValue = localStorage.getItem(this.authLocalStorageToken);
+      console.log("Token get "+lsValue);
+
       if (!lsValue) {
         return undefined;
       }

@@ -1,3 +1,5 @@
+import { SingleResponseModel } from './../../../singleResponse.model';
+import { LoginModel } from './../../models/login.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -14,11 +16,8 @@ export class AuthHTTPService {
   constructor(private http: HttpClient) {}
 
   // public methods
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<AuthModel>(`${API_USERS_URL}/login`, {
-      email,
-      password,
-    });
+  login(loginModel:LoginModel):Observable<any> {
+    return this.http.post<SingleResponseModel<AuthModel>>(`${API_USERS_URL}/login`, loginModel);
   }
 
   // CREATE =>  POST: add a new user to the server

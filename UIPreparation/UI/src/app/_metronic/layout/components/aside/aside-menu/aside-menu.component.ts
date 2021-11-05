@@ -7,8 +7,8 @@ import { environment } from '../../../../../../environments/environment';
   styleUrls: ['./aside-menu.component.scss'],
 })
 export class AsideMenuComponent implements OnInit {
-  appAngularVersion: string = environment.appVersion;
-  appPreviewChangelogUrl: string = environment.appPreviewChangelogUrl;
+  appAngularVersion: string = "v.1.0.1";
+  appPreviewChangelogUrl: string = "environment.appPreviewChangelogUrl";
 
   constructor() {}
 
