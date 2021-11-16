@@ -2,6 +2,7 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
+import { ListResponseModel } from 'src/app/models/listResponseModel';
 
 @Component({
   selector: 'app-user-inner',
@@ -24,8 +25,10 @@ export class UserInnerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.user$ = this.auth.currentUserSubject.asObservable();
+    console.log("User on init",this.user$);
     this.setLanguage(this.translationService.getSelectedLanguage());
   }
+  log(val:object) { console.log("_user",val); }
 
   logout() {
     this.auth.logout();

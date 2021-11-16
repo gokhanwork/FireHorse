@@ -1,3 +1,4 @@
+import { ListResponseModel } from './../../../../models/listResponseModel';
 import { SingleResponseModel } from './../../../singleResponse.model';
 import { LoginModel } from './../../models/login.model';
 import { Injectable } from '@angular/core';
@@ -6,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserModel } from '../../models/user.model';
 import { environment } from '../../../../../environments/environment';
 import { AuthModel } from '../../models/auth.model';
+import { UserType } from '../auth.service';
 
 const API_USERS_URL = `${environment.apiUrl}/auth`;
 
@@ -32,11 +34,11 @@ export class AuthHTTPService {
     });
   }
 
-  getUserByToken(token: string): Observable<UserModel> {
+  getUserByToken(id: number,token: string): Observable<ListResponseModel<UserModel>> {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.get<UserModel>(`${API_USERS_URL}/me`, {
+    return this.http.get<ListResponseModel<UserModel>>(`${environment.apiUrl}/User/me?id=`+id, {
       headers: httpHeaders,
     });
   }

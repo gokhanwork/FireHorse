@@ -1,3 +1,4 @@
+import { ListResponseModel } from './../../../models/listResponseModel';
 import { LoginModel } from './../models/login.model';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
@@ -26,10 +27,13 @@ export class AuthService implements OnDestroy {
   isLoadingSubject: BehaviorSubject<boolean>;
 
   get currentUserValue(): UserType {
+    console.log("GetUser", this.currentUserSubject.value);
     return this.currentUserSubject.value;
+
   }
 
   set currentUserValue(user: UserType) {
+    console.log("SetUser", user);
     this.currentUserSubject.next(user);
   }
 
@@ -38,15 +42,16 @@ export class AuthService implements OnDestroy {
     private router: Router
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
-    this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
+    this.currentUserSubject = new BehaviorSubject<UserType>(undefined!);
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
     const subscr = this.getUserByToken().subscribe();
     this.unsubscribe.push(subscr);
+    console.log("Subs",subscr)
   }
 
   // public methods
-  login(loginModel:LoginModel) {
+  login(loginModel:LoginModel):Observable<ListResponseModel<UserType>> {
     this.isLoadingSubject.next(true);
     return this.authHttpService.login(loginModel).pipe(
       map((auth: SingleResponseModel<AuthModel>) => {
@@ -56,7 +61,7 @@ export class AuthService implements OnDestroy {
       switchMap(() => this.getUserByToken()),
       catchError((err) => {
         console.log('err', err);
-        return of(undefined);
+        return of(undefined!);
       }),
       finalize(() => this.isLoadingSubject.next(false))
     );
@@ -69,17 +74,18 @@ export class AuthService implements OnDestroy {
     });
   }
 
-  getUserByToken(): Observable<UserType> {
+  getUserByToken(): Observable<ListResponseModel<UserType>> {
     const auth = this.getAuthFromLocalStorage();
     if (!auth || !auth.token) {
-      return of(undefined);
+      return of(undefined!);
     }
 
     this.isLoadingSubject.next(true);
-    return this.authHttpService.getUserByToken(auth.token).pipe(
-      map((user: UserType) => {
+    return this.authHttpService.getUserByToken(2,auth.token).pipe(
+      map((user: ListResponseModel<UserModel>) => {
         if (user) {
-          this.currentUserSubject.next(user);
+          console.log("User1", user.data[0]);
+          this.currentUserSubject.next(user.data[0]);
         } else {
           this.logout();
         }

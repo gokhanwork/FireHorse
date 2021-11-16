@@ -84,7 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe((response) => {
         if (response) {
-          this.toastrService.success(response.lastname);
           console.log(response)
           this.router.navigate([this.returnUrl]);
         } else {

@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,11 @@ namespace Business.Concrete
         public List<OperationClaim> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
+        }
+
+        public IDataResult<List<UserDetailDto>> GetUserById(int id)
+        {
+            return new SuccessDataResult<List<UserDetailDto>>(_userDal.GetUserDetailsById(id));
         }
     }
 }
