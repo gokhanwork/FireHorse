@@ -14,7 +14,8 @@ import { AuthService } from './modules/auth/services/auth.service';
 import { environment } from 'src/environments/environment';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
-import { DenemeComponent } from './pages/deneme/deneme.component';
+import { TablesComponent } from './pages/tables/tables.component';
+import { AddTableComponent } from './pages/tables/add-table/add-table.component';
 // #fake-end#
 
 function appInitializer(authService: AuthService) {
@@ -26,7 +27,7 @@ function appInitializer(authService: AuthService) {
 }
 
 @NgModule({
-  declarations: [AppComponent, DenemeComponent],
+  declarations: [AppComponent, TablesComponent, AddTableComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

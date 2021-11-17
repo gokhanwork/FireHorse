@@ -81,7 +81,7 @@ export class AuthService implements OnDestroy {
     }
 
     this.isLoadingSubject.next(true);
-    return this.authHttpService.getUserByToken(2,auth.token).pipe(
+    return this.authHttpService.getUserByToken(auth.userId,auth.token).pipe(
       map((user: ListResponseModel<UserModel>) => {
         if (user) {
           console.log("User1", user.data[0]);

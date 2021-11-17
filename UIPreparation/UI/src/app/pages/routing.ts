@@ -1,5 +1,7 @@
-import { DenemeComponent } from './deneme/deneme.component';
+import { AddTableComponent } from './tables/add-table/add-table.component';
+import { TablesComponent } from './tables/tables.component';
 import { Routes } from '@angular/router';
+import { components } from '../_metronic/kt';
 
 const Routing: Routes = [
   {
@@ -40,10 +42,6 @@ const Routing: Routes = [
       import('../modules/apps/chat/chat.module').then((m) => m.ChatModule),
   },
   {
-       path: 'deneme', // <= Page URL
-       component: DenemeComponent // <= Page component registration
-  },
-  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',
@@ -51,6 +49,14 @@ const Routing: Routes = [
   {
     path: '**',
     redirectTo: 'error/404',
+  },
+  {
+    path: 'tables',
+    component: TablesComponent
+  },
+  {
+    path: 'tables/add',
+    component: AddTableComponent
   },
 ];
 

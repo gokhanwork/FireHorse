@@ -24,11 +24,18 @@ namespace Business.Concrete
             _tokenHelper = tokenHelper;
         }
 
-        public IDataResult<AccessToken> CreateAccessToken(User user)
+        public IDataResult<UserLoginDto> CreateAccessToken(User user)
         {
             var claims = _userService.GetClaims(user);
+           
             var accessToken = _tokenHelper.CreateToken(user, claims);
-            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+            var loginData = new UserLoginDto
+            {
+                Expiration = accessToken.Expiration,
+                Token = accessToken.Token,
+                UserId = user.Id
+            };
+            return new SuccessDataResult<UserLoginDto>(loginData, Messages.AccessTokenCreated);
         }
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)

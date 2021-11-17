@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './modules/auth/services/auth.guard';
-import { MyComponent } from './pages/my/my.component';
 
 export const routes: Routes = [
   {
@@ -19,10 +18,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./_metronic/layout/layout.module').then((m) => m.LayoutModule),
-  },
-  {
-    path: 'my-component',
-    component: MyComponent,
   },
   { path: '**', redirectTo: 'error/404' },
 ];

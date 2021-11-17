@@ -1,3 +1,6 @@
+import { routes } from './../../../../app-routing.module';
+import { Router } from '@angular/router';
+import { PageInfo, PageInfoService } from './../../core/page-info.service';
 import {
   AfterViewInit,
   Component,
@@ -19,10 +22,12 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   };
   toolbarContainerCssClasses: string = '';
   pageTitleCssClasses: string = '';
+  currentUrl:string ="";
 
-  constructor(private layout: LayoutService) {}
+  constructor(private layout: LayoutService,private router:Router) {}
 
   ngOnInit(): void {
+    this.currentUrl = this.router.url;
     this.toolbarContainerCssClasses =
       this.layout.getStringCSSClasses('toolbarContainer');
     this.pageTitleCssClasses = this.layout.getStringCSSClasses('pageTitle');
@@ -30,6 +35,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+
     if (this.ktPageTitle) {
       for (const key in this.pageTitleAttributes) {
         if (
@@ -41,5 +47,8 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
         }
       }
     }
+  }
+  routeCreateButton(){
+    return this.router.url+ "/add";
   }
 }
