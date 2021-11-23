@@ -9,6 +9,7 @@ import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { SingleResponseModel } from '../../singleResponse.model';
+import { ToastrService } from 'ngx-toastr';
 
 export type UserType = UserModel | undefined;
 

@@ -35,11 +35,6 @@ export class AuthHTTPService {
   }
 
   getUserByToken(id: number,token: string): Observable<ListResponseModel<UserModel>> {
-    const httpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-    return this.http.get<ListResponseModel<UserModel>>(`${environment.apiUrl}/User/me?id=`+id, {
-      headers: httpHeaders,
-    });
+    return this.http.get<ListResponseModel<UserModel>>(`${environment.apiUrl}/User/me?id=`+id);
   }
 }

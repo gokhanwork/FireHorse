@@ -24,10 +24,13 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   pageTitleCssClasses: string = '';
   currentUrl:string ="";
 
-  constructor(private layout: LayoutService,private router:Router) {}
+  constructor(private layout: LayoutService,private router:Router) {
+
+  }
 
   ngOnInit(): void {
-    this.currentUrl = this.router.url;
+
+
     this.toolbarContainerCssClasses =
       this.layout.getStringCSSClasses('toolbarContainer');
     this.pageTitleCssClasses = this.layout.getStringCSSClasses('pageTitle');
@@ -48,7 +51,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  routeCreateButton(){
-    return this.router.url+ "/add";
+  returnCurrentUrl(){
+    return this.router.url + "/add";
   }
 }
