@@ -12,6 +12,8 @@ namespace Core.Utilities.Interceptors
         protected virtual void OnSuccess(IInvocation invocation) { }
         public override void Intercept(IInvocation invocation)
         {
+            //{ Core.Utilities.Results.IResult Add(Entities.Concrete.Table)}
+            //{Core.Utilities.Results.IResult Add(Entities.Concrete.Table)}
             var isSuccess = true;
             OnBefore(invocation);
             try

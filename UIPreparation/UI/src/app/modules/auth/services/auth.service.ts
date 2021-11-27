@@ -28,13 +28,11 @@ export class AuthService implements OnDestroy {
   isLoadingSubject: BehaviorSubject<boolean>;
 
   get currentUserValue(): UserType {
-    console.log("GetUser", this.currentUserSubject.value);
     return this.currentUserSubject.value;
 
   }
 
   set currentUserValue(user: UserType) {
-    console.log("SetUser", user);
     this.currentUserSubject.next(user);
   }
 
@@ -48,7 +46,6 @@ export class AuthService implements OnDestroy {
     this.isLoading$ = this.isLoadingSubject.asObservable();
     const subscr = this.getUserByToken().subscribe();
     this.unsubscribe.push(subscr);
-    console.log("Subs",subscr)
   }
 
   // public methods
@@ -85,7 +82,6 @@ export class AuthService implements OnDestroy {
     return this.authHttpService.getUserByToken(auth.userId,auth.token).pipe(
       map((user: ListResponseModel<UserModel>) => {
         if (user) {
-          console.log("User1", user.data[0]);
           this.currentUserSubject.next(user.data[0]);
         } else {
           this.logout();
@@ -122,14 +118,11 @@ export class AuthService implements OnDestroy {
   // private methods
   private setAuthFromLocalStorage(auth: AuthModel): boolean {
     // store auth authToken/refreshToken/epiresIn in local storage to keep user logged in between page refreshes
-    console.log("Auth ",auth);
 
     if (auth && auth.token) {
       localStorage.setItem(this.authLocalStorageToken, JSON.stringify(auth));
-      console.log("Token Kaydedildi");
       return true;
     }
-    console.log("Tokey kaydedilmedi");
 
     return false;
   }
@@ -137,12 +130,9 @@ export class AuthService implements OnDestroy {
   private getAuthFromLocalStorage(): AuthModel | undefined {
     try {
       const lsValue = localStorage.getItem(this.authLocalStorageToken);
-      console.log("Token get "+lsValue);
-
       if (!lsValue) {
         return undefined;
       }
-
       const authData = JSON.parse(lsValue);
       return authData;
     } catch (error) {

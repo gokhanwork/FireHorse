@@ -1,3 +1,4 @@
+import { WidgetsModule } from './_metronic/partials/content/widgets/widgets.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import { StroageTool } from './utilities/stroageTool';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +21,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
 import { TablesComponent } from './pages/tables/tables.component';
 import { AddTableComponent } from './pages/tables/add-table/add-table.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { StatsWidget5Component } from './_metronic/partials/content/widgets/stats/stats-widget5/stats-widget5.component';
 // #fake-end#
 const authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
 function appInitializer(authService: AuthService) {
@@ -30,7 +32,6 @@ function appInitializer(authService: AuthService) {
   };
 }
 export function tokenGetter() {
-  console.log("Tokenist",localStorage.getItem(authLocalStorageToken));
   return localStorage.getItem(authLocalStorageToken);
 }
 
@@ -44,6 +45,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     HttpClientModule,
     ClipboardModule,
+    WidgetsModule,
     ToastrModule.forRoot({
       positionClass:"toast-bottom-right"
     }),

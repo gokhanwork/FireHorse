@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { TableService } from './../../../services/table.service';
+import { TableHttpService } from '../services/table-http.service';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ export class AddTableComponent implements OnInit {
   isLoading: boolean;
   private unsubscribe: Subscription[] = [];
   tableAddForm: FormGroup;
-  constructor(private formBuilder:FormBuilder,private tableService:TableService,private toastrService:ToastrService) {
+  constructor(private formBuilder:FormBuilder,private tableService:TableHttpService,private toastrService:ToastrService) {
     const loadingSubscr = this.isLoading$
     .asObservable()
     .subscribe((res) => (this.isLoading = res));
@@ -33,13 +33,14 @@ export class AddTableComponent implements OnInit {
   }
   addTable(){
     console.log(this.tableAddForm);
-
+    this.isLoading$.next(true);
     if (this.tableAddForm.valid) {
       let tableModel = Object.assign({}, this.tableAddForm.value);
       this.tableService.addTable(tableModel).subscribe(
         (response) => {
+          this.isLoading$.next(false)
           this.toastrService.success(response.message,"Başarılı")
-          console.log(response.message);
+
         },
         (responseError) => {
           /*if(responseError.error.Errors.lenght > 0){
@@ -48,15 +49,19 @@ export class AddTableComponent implements OnInit {
               console.log(responseError);
             }
           }*/
+          this.isLoading$.next(false);
           this.toastrService.error(responseError.error.message,"Hata");
         }
       );
 
     }else{
+      this.isLoading$.next(false);
       this.toastrService.error("Eksik alanları doldurun","Hata");
-      console.log("Hata");
 
     }
+  }
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
 }

@@ -78,7 +78,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   submit() {
     this.hasError = false;
     let loginModel:LoginModel = Object.assign({}, this.loginForm.value);
-    console.log(loginModel.email,loginModel.password)
     const loginSubscr = this.authService
       .login(loginModel)
       .pipe(first())

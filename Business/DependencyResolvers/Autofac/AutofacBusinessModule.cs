@@ -49,30 +49,30 @@ namespace Business.DependencyResolvers.Autofac
 
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
-            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
-                .AsClosedTypesOf(typeof(IValidator<>));
-            switch (_configuration.Mode)
-            {
-                case ApplicationMode.Development:
-                    builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
-                        .Where(t => t.FullName.StartsWith("Business.Fakes"));
-                    break;
-                case ApplicationMode.Profiling:
+            //builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+            //    .AsClosedTypesOf(typeof(IValidator<>));
+            //switch (_configuration.Mode)
+            //{
+            //    case ApplicationMode.Development:
+            //        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+            //            .Where(t => t.FullName.StartsWith("Business.Fakes"));
+            //        break;
+            //    case ApplicationMode.Profiling:
 
-                    builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
-                        .Where(t => t.FullName.StartsWith("Business.Fakes.SmsService"));
-                    break;
-                case ApplicationMode.Staging:
-                    builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
-                        .Where(t => t.FullName.StartsWith("Business.Fakes.SmsService"));
-                    break;
-                case ApplicationMode.Production:
-                    builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
-                        .Where(t => t.FullName.StartsWith("Business.Adapters"));
-                    break;
-                default:
-                    break;
-            }
+            //        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+            //            .Where(t => t.FullName.StartsWith("Business.Fakes.SmsService"));
+            //        break;
+            //    case ApplicationMode.Staging:
+            //        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+            //            .Where(t => t.FullName.StartsWith("Business.Fakes.SmsService"));
+            //        break;
+            //    case ApplicationMode.Production:
+            //        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+            //            .Where(t => t.FullName.StartsWith("Business.Adapters"));
+            //        break;
+            //    default:
+            //        break;
+            //}
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
                 .EnableInterfaceInterceptors(new ProxyGenerationOptions()

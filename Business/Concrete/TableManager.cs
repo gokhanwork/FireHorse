@@ -27,7 +27,7 @@ namespace Business.Concrete
 
         [SecuredOperation("table.add,admin")]
         //[ValidationAspect(typeof(TableValidator))]
-        [CacheRemoveAspect("ITableService.Get")]
+        //[CacheRemoveAspect("ITableService.Get")]
         public IResult Add(Table table)
         {
             IResult result = BusinessRules.Run(CheckIfTableNameExists(table.TableName));
@@ -51,7 +51,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Table>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Table>>(_tableDal.GetAll(), Messages.TableListed);
         }
 
         public IResult Update(Table table)

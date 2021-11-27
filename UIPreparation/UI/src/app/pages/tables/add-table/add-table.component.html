@@ -76,15 +76,17 @@
           [disabled]="isLoading"
           (click)="addTable()"
         >
-          <ng-container *ngIf="!isLoading">Masa Oluştur</ng-container>
-          <ng-container *ngIf="isLoading">
-            <span clas="indicator-progress" [style.display]="'block'">
-              Lütfen Bekleyin...{{ " " }}
-              <span
-                class="spinner-border spinner-border-sm align-middle ms-2"
-              ></span>
-            </span>
-          </ng-container>
+        <ng-container *ngIf="isLoading$ | async">
+          <span class="indicator-progress" [style.display]="'block'">
+            Masa ekleniyor...
+            <span
+              class="spinner-border spinner-border-sm align-middle ms-2"
+            ></span>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="!(isLoading$ | async)">
+          <span class="indicator-label">Masa Ekle</span>
+        </ng-container>
         </button>
       </div>
     </form>

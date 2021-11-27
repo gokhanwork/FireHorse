@@ -8,19 +8,13 @@ export class StroageTool{
   public getAuthFromLocalStorage(): AuthModel {
     try {
       const lsValue = localStorage.getItem(this.authLocalStorageToken);
-      console.log("Straoge get "+lsValue);
-
       if (!lsValue) {
         return undefined!;
       }
-
       const authData = JSON.parse(lsValue);
-      console.log("Strogae data ", authData);
-
       return authData;
     } catch (error) {
       console.log(error);
-
       return undefined!;
     }
   }
