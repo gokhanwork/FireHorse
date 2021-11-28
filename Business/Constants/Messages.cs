@@ -31,5 +31,7 @@ namespace Business.Constants
         public static string TableNameAlreadyExists = "Aynı isimde masa mevcut";
 
         public static string TableListed = "Tablolar listelendi";
+
+        public static string ProductCodeAlreadyExists = "Bu ürün kodu zaten var";
     }
 }

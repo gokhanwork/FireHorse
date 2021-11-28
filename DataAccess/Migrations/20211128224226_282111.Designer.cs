@@ -4,14 +4,16 @@ using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(FireHorseContext))]
-    partial class FireHorseContextModelSnapshot : ModelSnapshot
+    [Migration("20211128224226_282111")]
+    partial class _282111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +107,7 @@ namespace DataAccess.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
 
-                    b.Property<int?>("ParentId")
+                    b.Property<int>("ParentId")
                         .HasColumnType("int");
 
                     b.HasKey("CategoryId");
@@ -174,7 +176,7 @@ namespace DataAccess.Migrations
                     b.Property<Guid>("TableId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("2f3dbdea-95d6-40df-82b2-b99ee2a1a67a"));
+                        .HasDefaultValue(new Guid("8648c05d-cd70-457f-b623-c0a43fcabd12"));
 
                     b.Property<string>("TableName")
                         .IsRequired()

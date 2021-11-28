@@ -19,11 +19,18 @@ namespace DataAccess.Concrete.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new TableMap());
+            modelBuilder.ApplyConfiguration(new ProductMap());
+            modelBuilder.ApplyConfiguration(new UnitMap());
+            modelBuilder.ApplyConfiguration(new CategoryMap());
         }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
 
         /// <summary>
         /// Save Changes eziyoruz
