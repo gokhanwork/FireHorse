@@ -1,3 +1,4 @@
+import { ProductComponent } from './product/product.component';
 import { AddTableComponent } from './tables/add-table/add-table.component';
 import { TablesComponent } from './tables/tables.component';
 import { Routes } from '@angular/router';
@@ -58,6 +59,10 @@ const Routing: Routes = [
     path: 'tables/add',
     component: AddTableComponent
   },
+  {
+    path: "products",
+    component: ProductComponent
+  }
 ];
 
 export { Routing };

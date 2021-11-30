@@ -22,6 +22,8 @@ import { TablesComponent } from './pages/tables/tables.component';
 import { AddTableComponent } from './pages/tables/add-table/add-table.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { StatsWidget5Component } from './_metronic/partials/content/widgets/stats/stats-widget5/stats-widget5.component';
+import { DataTablesModule } from 'angular-datatables';
+import { ProductComponent } from './pages/product/product.component';
 // #fake-end#
 const authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
 function appInitializer(authService: AuthService) {
@@ -36,7 +38,7 @@ export function tokenGetter() {
 }
 
 @NgModule({
-  declarations: [AppComponent, TablesComponent, AddTableComponent],
+  declarations: [AppComponent, TablesComponent, AddTableComponent, ProductComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -67,6 +69,7 @@ export function tokenGetter() {
         disallowedRoutes: ["http://example.com/examplebadroute/"],
       },
     }),
+    DataTablesModule,
   ],
   providers: [
     {
