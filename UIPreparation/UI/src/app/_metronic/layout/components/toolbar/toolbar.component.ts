@@ -1,5 +1,7 @@
+import { TablesComponent } from './../../../../pages/tables/tables.component';
+import { AddTableComponent } from './../../../../pages/tables/add-table/add-table.component';
 import { routes } from './../../../../app-routing.module';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { PageInfo, PageInfoService } from './../../core/page-info.service';
 import {
   AfterViewInit,
@@ -52,6 +54,15 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
     }
   }
   returnCurrentUrl(){
-    return this.router.url + "/add";
+
+    return this.router.url + "/add"
+  }
+  checkButtonVisible(){
+   if(this.router.url.includes("add") ||
+      this.router.url.includes("dashboard")  ){
+     return true
+   }
+   return false
+
   }
 }

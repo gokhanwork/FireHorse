@@ -24,6 +24,7 @@ namespace DataAccess.Concrete.EntityFramework
             modelBuilder.ApplyConfiguration(new CategoryMap());
         }
         public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<Table> Tables { get; set; }

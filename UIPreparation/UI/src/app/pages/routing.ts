@@ -1,3 +1,4 @@
+import { AddProductComponent } from './product/add-product/add-product.component';
 import { ProductComponent } from './product/product.component';
 import { AddTableComponent } from './tables/add-table/add-table.component';
 import { TablesComponent } from './tables/tables.component';
@@ -62,6 +63,10 @@ const Routing: Routes = [
   {
     path: "products",
     component: ProductComponent
+  },
+  {
+    path: "products/add",
+    component: AddProductComponent
   }
 ];
 

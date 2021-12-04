@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TableHttpService } from '../services/table-http.service';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -14,7 +15,7 @@ export class AddTableComponent implements OnInit {
   isLoading: boolean;
   private unsubscribe: Subscription[] = [];
   tableAddForm: FormGroup;
-  constructor(private formBuilder:FormBuilder,private tableService:TableHttpService,private toastrService:ToastrService) {
+  constructor(private formBuilder:FormBuilder,private tableService:TableHttpService,private toastrService:ToastrService,private router:Router) {
     const loadingSubscr = this.isLoading$
     .asObservable()
     .subscribe((res) => (this.isLoading = res));

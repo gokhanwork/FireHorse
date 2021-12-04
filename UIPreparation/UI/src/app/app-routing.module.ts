@@ -1,3 +1,4 @@
+import { AddTableComponent } from './pages/tables/add-table/add-table.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './modules/auth/services/auth.guard';

@@ -13,7 +13,7 @@
     <!-- begin::Wrapper  -->
     <div class="me-4">
       <!-- begin::Menu  -->
-      <a
+      <a *ngIf="!checkButtonVisible()"
         class="
           btn btn-sm btn-flex btn-light btn-active-primary
           fw-bolder
@@ -35,7 +35,7 @@
     <!-- end::Wrapper  -->
 
     <!-- begin::Button  -->
-    <a
+    <a *ngIf="!checkButtonVisible()"
       class="btn btn-sm btn-primary cursor-pointer"
       data-bs-toggle="modal"
       data-bs-target="#kt_modal_create_app"
